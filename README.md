@@ -26,6 +26,11 @@ Start by installing
     (global-set-key (kbd "M-i") 'change-inner)
     (global-set-key (kbd "M-o") 'change-outer)
 
+## It's not working in my favorite mode
+
+That may just be because expand-region needs some love for your mode. Please
+open a ticket there: https://github.com/magnars/expand-region.el
+
 ## License
 
 Copyright (C) 2011 Magnar Sveen
