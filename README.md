@@ -4,9 +4,9 @@ change-inner gives you vim's `ci` command, building on
 [expand-region](https://github.com/magnars/expand-region.el). It is most easily
 explained by example:
 
-   function test() {
-     return "semantic kill";
-   }
+    function test() {
+      return "semantic kill";
+    }
 
 With point after the word `semantic`
 
