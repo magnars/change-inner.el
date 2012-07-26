@@ -55,10 +55,17 @@
 
 (require 'expand-region)
 
-(defun change-inner (char)
+(defun ci--flash-region (start end)
+  "Temporarily highlight region from START to END."
+  (let ((overlay (make-overlay start end)))
+    (overlay-put overlay 'face 'secondary-selection)
+    (overlay-put overlay 'priority 100)
+    (run-with-timer 0.2 nil 'delete-overlay overlay)))
+
+(defun change-inner (arg char)
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the innards of the first ancestor semantic unit starting with that char."
-  (interactive "cChange inner, starting with:")
+  (interactive "p\ncChange inner, starting with:")
   (flet ((message (&rest args) nil))
     (let ((char (char-to-string char)))
       (when (looking-at char)
@@ -71,12 +78,15 @@ kills the innards of the first ancestor semantic unit starting with that char."
                      (not (looking-at char)))
             (error "Couldn't find any expansion starting with %S" char)))
         (er/contract-region 1)
-        (kill-region (region-beginning) (region-end))))))
+        (if (= 1 arg)
+            (kill-region (region-beginning) (region-end))
+          (copy-region-as-kill (region-beginning) (region-end))
+          (ci--flash-region (region-beginning) (region-end)))))))
 
-(defun change-outer (char)
+(defun change-outer (arg char)
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the first ancestor semantic unit starting with that char."
-  (interactive "cChange outer, starting with:")
+  (interactive "p\ncChange outer, starting with:")
   (flet ((message (&rest args) nil))
     (let ((char (char-to-string char)))
       (save-excursion
@@ -87,7 +97,10 @@ kills the first ancestor semantic unit starting with that char."
           (when (and (= (point) (point-min))
                      (not (looking-at char)))
             (error "Couldn't find any expansion starting with %S" char)))
-        (kill-region (region-beginning) (region-end))))))
+        (if (= 1 arg)
+            (kill-region (region-beginning) (region-end))
+          (copy-region-as-kill (region-beginning) (region-end))
+          (ci--flash-region (region-beginning) (region-end)))))))
 
 (provide 'change-inner)
 ;;; change-inner.el ends here

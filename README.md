@@ -17,6 +17,8 @@ With point after the word `semantic`
 
 I use `M-i` and `M-o` for this.
 
+Giving these commands a prefix argument `C-u` means copy instead of kill.
+
 ## Installation
 
 Start by installing
