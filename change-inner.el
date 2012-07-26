@@ -1,8 +1,8 @@
 ;;; change-inner.el --- Change contents based on semantic units
 
-;; Copyright (C) 2012  Sveen <fimasvee@fi-bp-202.local>
+;; Copyright (C) 2012 Magnar Sveen <magnars@gmail.com>
 
-;; Author: Sveen <fimasvee@fi-bp-202.local>
+;; Author: Magnar Sveen <magnars@gmail.com>
 ;; Keywords: convenience, extensions
 
 ;; This program is free software; you can redistribute it and/or
