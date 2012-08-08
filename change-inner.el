@@ -70,20 +70,21 @@
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the innards of the first ancestor semantic unit starting with that char."
   (interactive "p")
-  (let ((char (char-to-string
+  (let* ((char (char-to-string
                (read-char
                 (if (= 1 arg)
                     "Change inner, starting with:"
-                  "Yank inner, starting with:")))))
+                  "Yank inner, starting with:"))))
+         (q-char (regexp-quote char)))
     (flet ((message (&rest args) nil))
-      (when (looking-at char)
+      (when (looking-at q-char)
         (forward-char 1))
       (save-excursion
         (er/expand-region 1)
-        (while (not (looking-at char))
+        (while (not (looking-at q-char))
           (er/expand-region 1)
           (when (and (= (point) (point-min))
-                     (not (looking-at char)))
+                     (not (looking-at q-char)))
             (error "Couldn't find any expansion starting with %S" char)))
         (er/contract-region 1)
         (if (= 1 arg)
@@ -95,19 +96,20 @@ kills the innards of the first ancestor semantic unit starting with that char."
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the first ancestor semantic unit starting with that char."
   (interactive "p")
-  (let ((char (char-to-string
+  (let* ((char (char-to-string
                (read-char
                 (if (= 1 arg)
                     "Change outer, starting with:"
-                  "Yank outer, starting with:")))))
+                  "Yank outer, starting with:"))))
+         (q-char (regexp-quote char)))
     (flet ((message (&rest args) nil))
       (save-excursion
-        (when (looking-at char)
+        (when (looking-at q-char)
           (er/expand-region 1))
-        (while (not (looking-at char))
+        (while (not (looking-at q-char))
           (er/expand-region 1)
           (when (and (= (point) (point-min))
-                     (not (looking-at char)))
+                     (not (looking-at q-char)))
             (error "Couldn't find any expansion starting with %S" char)))
         (if (= 1 arg)
             (kill-region (region-beginning) (region-end))
