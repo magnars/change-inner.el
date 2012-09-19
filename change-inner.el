@@ -3,7 +3,9 @@
 ;; Copyright (C) 2012 Magnar Sveen <magnars@gmail.com>
 
 ;; Author: Magnar Sveen <magnars@gmail.com>
+;; Version: 0.2.0
 ;; Keywords: convenience, extensions
+;; Package-Requires: ((expand-region "0.7"))
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
