@@ -61,6 +61,8 @@
 
 (require 'expand-region)
 
+(eval-when-compile (require 'cl))
+
 (defun ci--flash-region (start end)
   "Temporarily highlight region from START to END."
   (let ((overlay (make-overlay start end)))
