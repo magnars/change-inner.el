@@ -82,9 +82,8 @@ kills the innards of the first ancestor semantic unit starting with that char."
                    "Yank inner, starting with:"))))
          (q-char (regexp-quote char)))
     (flet ((message (&rest args) nil))
-      (when (looking-at q-char)
-        (forward-char 1))
       (save-excursion
+        (er/expand-region 1)
         (er/expand-region 1)
         (while (not (looking-at q-char))
           (er/expand-region 1)
