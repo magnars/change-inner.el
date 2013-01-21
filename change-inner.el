@@ -75,7 +75,8 @@
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the innards of the first ancestor semantic unit starting with that char."
   (interactive "p")
-  (let* ((char (char-to-string
+  (let* ((expand-region-fast-keys-enabled nil)
+         (char (char-to-string
                 (read-char
                  (if (= 1 arg)
                      "Change inner, starting with:"
@@ -101,7 +102,8 @@ kills the innards of the first ancestor semantic unit starting with that char."
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the first ancestor semantic unit starting with that char."
   (interactive "p")
-  (let* ((char (char-to-string
+  (let* ((expand-region-fast-keys-enabled nil)
+         (char (char-to-string
                 (read-char
                  (if (= 1 arg)
                      "Change outer, starting with:"
