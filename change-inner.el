@@ -98,6 +98,11 @@ kills the innards of the first ancestor semantic unit starting with that char."
           (ci--flash-region (region-beginning) (region-end)))))))
 
 ;;;###autoload
+(defun copy-inner ()
+  (interactive)
+  (change-inner 0))
+
+;;;###autoload
 (defun change-outer (arg)
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the first ancestor semantic unit starting with that char."
@@ -122,6 +127,11 @@ kills the first ancestor semantic unit starting with that char."
             (kill-region (region-beginning) (region-end))
           (copy-region-as-kill (region-beginning) (region-end))
           (ci--flash-region (region-beginning) (region-end)))))))
+
+;;;###autoload
+(defun copy-outer ()
+  (interactive)
+  (change-outer 0))
 
 (provide 'change-inner)
 ;;; change-inner.el ends here
