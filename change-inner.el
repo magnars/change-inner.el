@@ -82,7 +82,7 @@ kills the innards of the first ancestor semantic unit starting with that char."
                      "Change inner, starting with:"
                    "Yank inner, starting with:"))))
          (q-char (regexp-quote char)))
-    (flet ((message (&rest args) nil))
+    (cl-flet ((message (&rest args) nil))
       (save-excursion
         (er/expand-region 1)
         (er/expand-region 1)
@@ -114,7 +114,7 @@ kills the first ancestor semantic unit starting with that char."
                      "Change outer, starting with:"
                    "Yank outer, starting with:"))))
          (q-char (regexp-quote char)))
-    (flet ((message (&rest args) nil))
+    (cl-flet ((message (&rest args) nil))
       (save-excursion
         (when (looking-at q-char)
           (er/expand-region 1))
