@@ -70,37 +70,49 @@
     (overlay-put overlay 'priority 100)
     (run-with-timer 0.2 nil 'delete-overlay overlay)))
 
-;;;###autoload
-(defun change-inner (arg)
+(defun change-inner* (yank? search-forward-char)
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the innards of the first ancestor semantic unit starting with that char."
-  (interactive "p")
   (let* ((expand-region-fast-keys-enabled nil)
-         (char (char-to-string
-                (read-char
-                 (if (= 1 arg)
-                     "Change inner, starting with:"
-                   "Yank inner, starting with:"))))
-         (q-char (regexp-quote char)))
+         (char (or search-forward-char
+                   (char-to-string
+                    (read-char
+                     (if yank?
+                         "Yank inner, starting with:"
+                       "Change inner, starting with:")))))
+         (q-char (regexp-quote char))
+         (starting-point (point)))
+    (when search-forward-char
+      (search-forward char (point-at-eol)))
     (flet ((message (&rest args) nil))
-      (save-excursion
-        (er/expand-region 1)
-        (er/expand-region 1)
-        (while (not (looking-at q-char))
-          (er/expand-region 1)
-          (when (and (= (point) (point-min))
-                     (not (looking-at q-char)))
-            (error "Couldn't find any expansion starting with %S" char)))
+      (er--expand-region-1)
+      (er--expand-region-1)
+      (while (and (not (= (point) (point-min)))
+                  (not (looking-at q-char)))
+        (er--expand-region-1))
+      (if (not (looking-at q-char))
+          (if search-forward-char
+              (error "Couldn't find any expansion starting with %S" char)
+            (goto-char starting-point)
+            (setq mark-active nil)
+            (change-inner* yank? char))
         (er/contract-region 1)
-        (if (= 1 arg)
-            (kill-region (region-beginning) (region-end))
-          (copy-region-as-kill (region-beginning) (region-end))
-          (ci--flash-region (region-beginning) (region-end)))))))
+        (if yank?
+            (progn
+              (copy-region-as-kill (region-beginning) (region-end))
+              (ci--flash-region (region-beginning) (region-end))
+              (goto-char starting-point))
+          (kill-region (region-beginning) (region-end)))))))
+
+;;;###autoload
+(defun change-inner (arg)
+  (interactive "P")
+  (change-inner* arg nil))
 
 ;;;###autoload
 (defun copy-inner ()
   (interactive)
-  (change-inner 0))
+  (change-inner* t nil))
 
 ;;;###autoload
 (defun change-outer (arg)
