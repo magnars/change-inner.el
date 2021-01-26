@@ -74,6 +74,7 @@
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the innards of the first ancestor semantic unit starting with that char."
   (let* ((expand-region-fast-keys-enabled nil)
+         (expand-region-smart-cursor nil)         
          (char (or search-forward-char
                    (char-to-string
                     (read-char
@@ -118,6 +119,7 @@ kills the innards of the first ancestor semantic unit starting with that char."
   "Works like vim's ci command. Takes a char, like ( or \" and
 kills the first ancestor semantic unit starting with that char."
   (let* ((expand-region-fast-keys-enabled nil)
+         (expand-region-smart-cursor nil)         
          (char (or search-forward-char
                    (char-to-string
                     (read-char
