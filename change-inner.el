@@ -61,7 +61,7 @@
 
 (require 'expand-region)
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (defun ci--flash-region (start end)
   "Temporarily highlight region from START to END."
@@ -85,7 +85,7 @@ kills the innards of the first ancestor semantic unit starting with that char."
          (starting-point (point)))
     (when search-forward-char
       (search-forward char (point-at-eol)))
-    (flet ((message (&rest args) nil))
+    (cl-flet ((message (&rest args) nil))
       (er--expand-region-1)
       (er--expand-region-1)
       (while (and (not (= (point) (point-min)))
@@ -130,7 +130,7 @@ kills the first ancestor semantic unit starting with that char."
          (starting-point (point)))
     (when search-forward-char
       (search-forward char (point-at-eol)))
-    (flet ((message (&rest args) nil))
+    (cl-flet ((message (&rest args) nil))
       (when (looking-at q-char)
         (er/expand-region 1))
       (while (and (not (= (point) (point-min)))
