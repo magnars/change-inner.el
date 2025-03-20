@@ -84,7 +84,7 @@ kills the innards of the first ancestor semantic unit starting with that char."
          (q-char (regexp-quote char))
          (starting-point (point)))
     (when search-forward-char
-      (search-forward char (point-at-eol)))
+      (search-forward char (line-end-position)))
     (cl-flet ((message (&rest args) nil))
       (er--expand-region-1)
       (er--expand-region-1)
@@ -129,7 +129,7 @@ kills the first ancestor semantic unit starting with that char."
          (q-char (regexp-quote char))
          (starting-point (point)))
     (when search-forward-char
-      (search-forward char (point-at-eol)))
+      (search-forward char (line-end-position)))
     (cl-flet ((message (&rest args) nil))
       (when (looking-at q-char)
         (er/expand-region 1))
